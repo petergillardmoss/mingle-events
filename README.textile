@@ -6,10 +6,20 @@ Mingle 3.3 introduced a new Events API in the form of an "Atom feed":http://www.
 
 However, we do accept that asking integrators wishing to consume events to implement polling is not ideal. Writing polling consumers can be tedious. And this tedium gets in the way of writing sweet Mingle integrations. We are addressing this by publishing libraries such as this, which if effective, fully hide the mechanics of event polling from the consumer. The consumer only need worry about the processing of events. Said processing is modeled in the style of 'pipes and filters.'
 
-h3. Repository
+h3. Installation
 
-https://github.com/ThoughtWorksStudios/mingle-events
+<pre>
+gem install mingle-events
+</pre>
 
+h3. Source
+
+"Hosted on github":https://github.com/ThoughtWorksStudios/mingle-events
+
+<pre>
+git clone git://github.com/ThoughtWorksStudios/mingle-events.git
+</pre>
+  
 h2. Quick example
 
 <pre>
