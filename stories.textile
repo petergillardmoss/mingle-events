@@ -1,7 +1,5 @@
 h2. Urgent
 
-* Make this a gem and publish to rubygems.org
-
 h2. High
 
 * Simplify some of the test XML now that entry parsing is lazy
