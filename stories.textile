@@ -1,0 +1,31 @@
+h2. Urgent
+
+* Make this a gem and publish to rubygems.org
+
+h2. High
+
+* Simplify some of the test XML now that entry parsing is lazy
+
+* Need processors:
+** Author filter
+** Property definition filter
+** Property value filter
+** Card number filter 
+** Http POST publisher w/ basic and digest auth support
+
+* Enhance CardData with more data beyond card type
+
+* Proper logging
+
+h2. Medium
+
+* Implement schedule polling. Currently there is only a 'run_once' and polling at regular intervals can only be accomplished via cron and similar.
+
+* Need processors:
+** Email publisher
+** Jabber publisher
+
+* What about Retry?  Do something a bit more 'real' with dead letter office.
+
+* When a filter (or anything that is not a subclass of AbstractNoRetryProcessor) blows up, I'm not convinced the correct error handling is in place.
+

@@ -1,0 +1,113 @@
+h1. Mingle Events
+
+Mingle 3.3 introduced a new Events API in the form of an "Atom feed":http://www.thoughtworks-studios.com/mingle/3.3/help/mingle_api_events.html. The Mingle team and ThoughtWorks Studios are big believers in the use of Atom for exposing events. Atom is a widely used standard, and this event API style puts the issue of robust event delivery in the hands of the consumer, where it belongs. In fact, we'd argue this is the only feasible means of robust, scalable event delivery, short of spending hundreds of thousands or millions of dollars on enterprise buses and such. Atom-delivered events are cheap, scalable, standards-based, and robust.
+
+However, we do accept that asking integrators wishing to consume events to implement polling is not ideal. Writing polling consumers can be tedious. And this tedium gets in the way of writing sweet Mingle integrations. We are addressing this by publishing libraries such as this, which if effective, fully hide the mechanics of event polling from the consumer. The consumer only need worry about the processing of events. Said processing is modeled in the style of 'pipes and filters.'
+
+h2. Quick example
+
+<pre>
+# specify mingle access
+mingle_access = MingleEvents::MingleBasicAuthAccess.new(
+  'https://mingle.example.com',
+  ENV['MINGLE_USER'],
+  ENV['MINGLE_PASS']
+)
+  
+# construct event processing pipelines
+post_new_comments = MingleEvents::Processors::Pipeline.new([
+  MingleEvents::Processors::CategoryFilter.new([MingleEvents::Category::COMMENT_ADDITION]),
+  MingleEvents::Processors::HttpPostPublisher.new('http://otherissuetracker.example.com/comments')
+])
+
+# assign processors to project
+processors_by_project = {
+  'project_one' => [post_new_comments]
+}
+
+# specify where to store event processing state
+state_folder = File.dirname('/where/to/store/last/event/processed')
+
+# run the poller once.  you'll want to schedule this with cron or something similar
+MingleEvents::Poller.new(mingle_access, processors_by_project, state_folder).run_once
+</pre>
+
+h2. High level design
+
+This library pumps the stream of a Mingle project's events through a pipeline of processors that you specify. The processors can do things such as "filter out any events that are not sourced from a Story" or "post an event to an HTTP end-point." 
+
+!http://thoughtworksstudios.github.com/mingle_events_design.png!
+
+As stated in the opening paragraph, the aim of this library is to hide the mechanics of event polling, making the user's focus solely the definition of the processing pipeline. This library supplies fundamental event processors, such as card type filters, atom category filters, and http publishers. This library should also make it easy for you to write custom processors.
+
+h2. Events and entries
+
+You might get confused looking at the source code as to what's an Atom entry and what's a Mingle event. We're still trying to clean that up a bit, but for all intents and purposes, they are the same thing. The Atom feed represents Mingle events in the form of Atom entries. For the most part we try to use the word 'entry' in the context of the feed and 'event' in the context of processing.
+
+h2. Processors, filters, and pipelines
+
+Processors, filters, and pipelines are all processors with the same interface. The fundamental model for pipes and filters, or pipelining, is that there is a single, common interface for processing input and returning output. In this context of Mingle event processing, the interface is basically "events in, events out" where "events in" is the list of unprocessed events and "events out" are the processed events.  Processed events might be enriched, filtered, untouched but emailed, etc. 
+
+This library ships the following processors:
+* MingleEvents::Processors::CardData -- loads data for each card that sourced an event in the current stream. This processor requires some special handling (see next section).
+* MingleEvents::Processors::CardTypeFilter -- filters events to those sourced by cards of specific card type(s)
+* MingleEvents::Processors::CategoryFilter -- filters events to those with specified Atom categories. Mingle's Atom Categories are specified in MingleEvents::Category
+* MingleEvents::Processors::HttpPostPublisher -- posts event's raw XML to an HTTP endpoint
+* MingleEvents::Processors::Pipeline -- manages to processing of events by a sequence of processors
+
+h2. Card Data
+
+CardData is a special processor in that it implements a second interface, beyond event processing. This interface is one that allows the lookup of data for the card that sourced the event (if the event was actually sourced by a card). As looking up card data requires accessing additional Mingle server resources, you want to take special care that you don't make repeated requests for the same resources. This is most easily accomplished by re-using a single instance of CardData across your entire pipeline. To start, place an instance of CardData at the start of your pipeline, so that it looks up data for all cards possibly related to the pipeline. Then supply that card data to any processors needing the card data, such as CardTypeFilter.
+
+<pre>
+card_data = MingleEvents::Processors::CardData.new(mingle_access, 'test_project')
+    
+post_commenting_on_bugs_and_stories = MingleEvents::Processors::Pipeline.new([
+    card_data,
+    MingleEvents::Processors::CardTypeFilter.new(['story', 'bug'], card_data),
+    MingleEvents::Processors::CategoryFilter.new([MingleEvents::Category::COMMENT_ADDITION]),
+    MingleEvents::Processors::HttpPostPublisher.new('http://otherissuetracker.example.com/comments')
+])
+</pre>
+
+CardData attempts to optimize the number of resources which must be retrieved from Mingle. For the most part, if you are processing events at frequent intervals, CardData can perform its data lookup with a single call to the execute_mql API. If a card has between event sourcing and event processing, CardData will lookup the specific version resource. All resource fetching is lazy, i.e., resources are only retrieved as they are needed.
+
+CardData will provide data for the version of the card that was created by the event you are processing and *not* the current version of the card. 
+
+h2. Writing your own processor
+
+In ruby code, the processing interface is a single method named 'process_events' that has a single parameter, the list of unprocessed events' and returns a list of the processed events. 
+
+Here's a processor that simply logs events:
+
+<pre>
+class MyPutsProcessor
+  def process_events(events)
+    events.each do |event|
+      puts event
+    end
+  end
+end
+</pre>
+  
+Here's a filtering processor that removes any event without an Atom category term of 'foo':
+
+<pre>
+class MyFooFilter
+  def process_events(events)
+    events.select do |event|
+      event.categories.any?{|category| category.term == 'foo'}
+    end
+  end
+end
+</pre>
+  
+Be absolutely sure that any processor you write returns a list of events. If you fail to do this, any pipeline using this processor will not function correctly. 
+
+Each event that is passed to the processor is an instance of type MingleEvents::Entry which is a Ruby wrapper around an Atom event. The Entry class makes it easy to access information such as author, Atom categories, whether the event was sourced by a card, etc. As the model is not yet complete, the Entry class also exposes the raw XML of the entry.
+
+Most processors that you write should subclass MingleEvents::Processors::AbstractNoRetryProcessor.  This class will manage the acts of iterating through the events and handling errors. You will only write a method for processing a single event.
+
+h2. Retry
+
+As of now, retry is not implemented. If you would like to implement re-try logic you will be left to writing your own processor. We will look to add simple re-try logic in the future. Be careful that your retry logic does not put your integration in a position where it is regularly reading the project's entire history of events!
