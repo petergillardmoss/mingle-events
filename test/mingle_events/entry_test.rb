@@ -28,12 +28,6 @@ module MingleEvents
     def test_parse_categories
       element_xml_text = %{
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
-          <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
-          <title>Page Special:HeaderActions changed</title>
-          <updated>2011-02-03T08:12:42Z</updated>
-          <author>
-            <name>Sammy Soso</name>
-          </author>
           <category term="foo" scheme='http://tws.com/ns#mingle' />
           <category term="bar" scheme="http://tws.com/ns#go" />
         </entry>}
@@ -53,14 +47,7 @@ module MingleEvents
       
       element_xml_text = %{
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
-          <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
-          <title>Page Special:HeaderActions changed</title>
-          <updated>2011-02-03T08:12:42Z</updated>
-          <author>
-            <name>Sammy Soso</name>
-          </author>
           <category term="card" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
-          <category term="comment-addition" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
           <link href="https://mingle.example.com/projects/atlas/cards/102" rel="http://www.thoughtworks-studios.com/ns/mingle#event-source" type="text/html" title="bug #103"/>
           <link href="https://mingle.example.com/api/v2/projects/atlas/cards/104.xml?version=7" rel="http://www.thoughtworks-studios.com/ns/mingle#version" type="application/vnd.mingle+xml" title="bug #105 (v7)"/>
           <link href="https://mingle.example.com/api/v2/projects/atlas/cards/106.xml" rel="http://www.thoughtworks-studios.com/ns/mingle#event-source" type="application/vnd.mingle+xml" title="bug #107"/>
@@ -76,14 +63,7 @@ module MingleEvents
     def test_card_number_and_version_throws_error_when_event_not_related_to_a_card      
       element_xml_text = %{
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
-          <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
-          <title>Page Special:HeaderActions changed</title>
-          <updated>2011-02-03T08:12:42Z</updated>
-          <author>
-            <name>Sammy Soso</name>
-          </author>
           <category term="page" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
-          <category term="description-change" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
         </entry>}
       element = Nokogiri::XML(element_xml_text)
       
@@ -112,14 +92,7 @@ module MingleEvents
       
       element_xml_text = %{
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
-          <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
-          <title>Page Special:HeaderActions changed</title>
-          <updated>2011-02-03T08:12:42Z</updated>
-          <author>
-            <name>Sammy Soso</name>
-          </author>
           <category term="card" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
-          <category term="comment-addition" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
           <link href="https://mingle.example.com/projects/atlas/cards/102" rel="http://www.thoughtworks-studios.com/ns/mingle#event-source" type="text/html" title="bug #103"/>
           <link href="https://mingle.example.com/api/v2/projects/atlas/cards/104.xml?version=7" rel="http://www.thoughtworks-studios.com/ns/mingle#version" type="application/vnd.mingle+xml" title="bug #105 (v7)"/>
           <link href="https://mingle.example.com/api/v2/projects/atlas/cards/106.xml" rel="http://www.thoughtworks-studios.com/ns/mingle#event-source" type="application/vnd.mingle+xml" title="bug #107"/>
@@ -134,14 +107,7 @@ module MingleEvents
     def test_card_version_resource_uri_throws_error_when_not_card_event
       element_xml_text = %{
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
-          <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
-          <title>Page Special:HeaderActions changed</title>
-          <updated>2011-02-03T08:12:42Z</updated>
-          <author>
-            <name>Sammy Soso</name>
-          </author>
           <category term="page" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
-          <category term="description-change" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
         </entry>}
       element = Nokogiri::XML(element_xml_text)
       
