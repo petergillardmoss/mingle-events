@@ -50,7 +50,7 @@ module MingleEvents
         path = "/api/v2/projects/#{@project_identifier}/cards/execute_mql.xml?mql=WHERE number IN (#{card_numbers.join(',')})"
         
         raw_xml = @mingle_access.fetch_page(URI.escape(path))
-        doc = Hpricot::XML(raw_xml)
+        doc = Nokogiri::XML(raw_xml)
         
         doc.search('/results/result').map do |card_result|
           card_number = card_result.at('number').inner_text.to_i
@@ -67,7 +67,7 @@ module MingleEvents
         http_response = @mingle_access.fetch_page_response(card_event.card_version_resource_uri)
         case http_response
         when Net::HTTPSuccess
-          doc = Hpricot::XML(http_response.body)
+          doc = Nokogiri::XML(http_response.body)
           {
             :number => card_event.card_number,
             :version => card_event.version,

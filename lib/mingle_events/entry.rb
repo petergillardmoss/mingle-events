@@ -4,7 +4,7 @@ module MingleEvents
   # representing an event in Mingle.
   class Entry
     
-    # Construct with the wrapped Hpricot Elem for the entry
+    # Construct with the wrapped Nokogiri Elem for the entry
     def initialize(entry_element)
       @entry_element = entry_element
     end
@@ -39,7 +39,7 @@ module MingleEvents
     # The set of Atom categoies describing the entry
     def categories
       @categories ||= @entry_element.search('category').map do |category_element|
-        Category.new(category_element.attributes['term'], category_element.attributes['scheme'])
+        Category.new(category_element.attribute('term').text, category_element.attribute('scheme').text)
       end
     end
     
@@ -75,14 +75,14 @@ module MingleEvents
         "link[@rel='http://www.thoughtworks-studios.com/ns/mingle#event-source'][@type='application/vnd.mingle+xml']"
       )
       # TODO: improve this bit of parsing :)
-      card_number_element.attributes['href'].split('/').last.split('.')[0..-2].join.to_i
+      card_number_element.attribute('href').text.split('/').last.split('.')[0..-2].join.to_i
     end
     
     def parse_card_version_resource_uri
       card_number_element = @entry_element.at(
         "link[@rel='http://www.thoughtworks-studios.com/ns/mingle#version'][@type='application/vnd.mingle+xml']"
       )
-      card_number_element.attributes['href']
+      card_number_element.attribute('href').text
     end
     
   end

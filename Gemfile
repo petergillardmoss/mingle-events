@@ -1,4 +1,4 @@
 source 'http://rubygems.org'
 
-gem 'hpricot'
+gem 'nokogiri'
 gem 'activesupport'

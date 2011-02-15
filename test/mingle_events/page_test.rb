@@ -5,6 +5,7 @@ module MingleEvents
     
     def test_entries_are_enumerable   
       latest_entries_page = Page.new('https://mingle.example.com/api/v2/projects/atlas/feeds/events.xml', stub_mingle_access)
+      
       assert_equal([
         'https://mingle.example.com/projects/atlas/events/index/103',
         'https://mingle.example.com/projects/atlas/events/index/101',

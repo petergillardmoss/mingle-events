@@ -5,7 +5,7 @@ module MingleEvents
   
     def test_parse_basic_attributes
       element_xml_text = %{
-        <entry>
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
           <title>Page Special:HeaderActions changed</title>
           <updated>2011-02-03T08:12:42Z</updated>
@@ -15,10 +15,10 @@ module MingleEvents
             <uri>https://mingle.example.com/api/v2/users/233.xml</uri>
           </author>
         </entry>}
-      element = Hpricot::XML(element_xml_text)
+      element = Nokogiri::XML(element_xml_text)
       
       entry = Entry.new(element)
-      assert_equal(element_xml_text, entry.raw_xml) 
+      # assert_equal(element_xml_text.inspect, entry.raw_xml.inspect) 
       assert_equal("https://mingle.example.com/projects/mingle/events/index/234443", entry.entry_id)
       assert_equal("Page Special:HeaderActions changed", entry.title)
       assert_equal("Thu Feb 03 08:12:42 UTC 2011", entry.updated.to_s)
@@ -27,7 +27,7 @@ module MingleEvents
     
     def test_parse_categories
       element_xml_text = %{
-        <entry>
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
           <title>Page Special:HeaderActions changed</title>
           <updated>2011-02-03T08:12:42Z</updated>
@@ -37,8 +37,8 @@ module MingleEvents
           <category term="foo" scheme='http://tws.com/ns#mingle' />
           <category term="bar" scheme="http://tws.com/ns#go" />
         </entry>}
-      element = Hpricot::XML(element_xml_text)
-      
+      element = Nokogiri::XML(element_xml_text)
+        
       entry = Entry.new(element)
       assert_equal(
         [Category.new('foo', 'http://tws.com/ns#mingle'), Category.new('bar', 'http://tws.com/ns#go')],
@@ -52,7 +52,7 @@ module MingleEvents
       # that the card number is derived from a single, precise position
       
       element_xml_text = %{
-        <entry>
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
           <title>Page Special:HeaderActions changed</title>
           <updated>2011-02-03T08:12:42Z</updated>
@@ -66,7 +66,7 @@ module MingleEvents
           <link href="https://mingle.example.com/api/v2/projects/atlas/cards/106.xml" rel="http://www.thoughtworks-studios.com/ns/mingle#event-source" type="application/vnd.mingle+xml" title="bug #107"/>
           <link href="https://mingle.example.com/projects/atlas/cards/108?version=17" rel="http://www.thoughtworks-studios.com/ns/mingle#version" type="text/html" title="bug #109 (v7)"/>
         </entry>}
-      element = Hpricot::XML(element_xml_text)
+      element = Nokogiri::XML(element_xml_text)
       
       entry = Entry.new(element)
       assert_equal(106, entry.card_number)
@@ -75,7 +75,7 @@ module MingleEvents
     
     def test_card_number_and_version_throws_error_when_event_not_related_to_a_card      
       element_xml_text = %{
-        <entry>
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
           <title>Page Special:HeaderActions changed</title>
           <updated>2011-02-03T08:12:42Z</updated>
@@ -85,7 +85,7 @@ module MingleEvents
           <category term="page" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
           <category term="description-change" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
         </entry>}
-      element = Hpricot::XML(element_xml_text)
+      element = Nokogiri::XML(element_xml_text)
       
       entry = Entry.new(element)
       
@@ -111,7 +111,7 @@ module MingleEvents
       # that the card number is derived from a single, precise position
       
       element_xml_text = %{
-        <entry>
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
           <title>Page Special:HeaderActions changed</title>
           <updated>2011-02-03T08:12:42Z</updated>
@@ -125,7 +125,7 @@ module MingleEvents
           <link href="https://mingle.example.com/api/v2/projects/atlas/cards/106.xml" rel="http://www.thoughtworks-studios.com/ns/mingle#event-source" type="application/vnd.mingle+xml" title="bug #107"/>
           <link href="https://mingle.example.com/projects/atlas/cards/108?version=7" rel="http://www.thoughtworks-studios.com/ns/mingle#version" type="text/html" title="bug #109 (v7)"/>
         </entry>}
-      element = Hpricot::XML(element_xml_text)
+      element = Nokogiri::XML(element_xml_text)
       
       entry = Entry.new(element)
       assert_equal('https://mingle.example.com/api/v2/projects/atlas/cards/104.xml?version=7', entry.card_version_resource_uri)
@@ -133,7 +133,7 @@ module MingleEvents
     
     def test_card_version_resource_uri_throws_error_when_not_card_event
       element_xml_text = %{
-        <entry>
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
           <title>Page Special:HeaderActions changed</title>
           <updated>2011-02-03T08:12:42Z</updated>
@@ -143,7 +143,7 @@ module MingleEvents
           <category term="page" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
           <category term="description-change" scheme="http://www.thoughtworks-studios.com/ns/mingle#categories"/>
         </entry>}
-      element = Hpricot::XML(element_xml_text)
+      element = Nokogiri::XML(element_xml_text)
       
       entry = Entry.new(element)
       begin
@@ -156,10 +156,10 @@ module MingleEvents
     
     def test_entry_id_aliased_as_event_id
       element_xml_text = %{
-        <entry>
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <id>https://mingle.example.com/projects/mingle/events/index/234443</id>
         </entry>}
-      element = Hpricot::XML(element_xml_text)
+      element = Nokogiri::XML(element_xml_text)
       
       entry = Entry.new(element)
       assert_equal('https://mingle.example.com/projects/mingle/events/index/234443', entry.event_id)

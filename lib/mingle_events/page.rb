@@ -13,7 +13,7 @@ module MingleEvents
     end
   
     def entries
-      @entries ||= page_as_document.search('/feed/entry').map do |entry_element|
+      @entries ||= page_as_document.search('feed/entry').map do |entry_element|
         Entry.new(entry_element)
       end
     end
@@ -25,13 +25,13 @@ module MingleEvents
     private
     
     def construct_next_page
-      next_url_element = page_as_document.search("/feed/link[@rel='next']").first
-      next_url_element.nil? ? nil : Page.new(next_url_element.attributes['href'], @mingle_access)
+      next_url_element = page_as_document.at("feed/link[@rel='next']")
+      next_url_element.nil? ? nil : Page.new(next_url_element.attribute('href').text, @mingle_access)
     end
   
     def page_as_document
-      @page_as_document ||= Hpricot::XML(@mingle_access.fetch_page(@url))
+      @page_as_document ||= Nokogiri::XML(@mingle_access.fetch_page(@url))
     end
-  
+    
   end
 end

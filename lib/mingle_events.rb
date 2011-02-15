@@ -4,7 +4,7 @@ require 'time'
 require 'logger'
 
 require 'rubygems'
-require 'hpricot'
+require 'nokogiri'
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'poller'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'http_error_support'))

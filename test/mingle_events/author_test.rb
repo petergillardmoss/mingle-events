@@ -4,13 +4,14 @@ module MingleEvents
   class AuthorTest < Test::Unit::TestCase
   
     def test_parse_attributes
-      element = Hpricot.XML(%{
-        <author>
+      element = Nokogiri.XML(%{
+        <author xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <name>Sammy Soso</name>
           <email>sammy@example.com</email>
           <uri>https://mingle.example.com/api/v2/users/233.xml</uri>
           <mingle:icon>https://mingle.example.com/user/icon/233/profile.jpg</mingle:icon>
         </author>})
+        
       author = Author.new(element)
       assert_equal("Sammy Soso", author.name)
       assert_equal("sammy@example.com", author.email)
@@ -19,8 +20,8 @@ module MingleEvents
     end
     
     def test_parse_attributes_when_no_optional_fields
-      element = Hpricot.XML(%{
-        <author>
+      element = Nokogiri.XML(%{
+        <author xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <name>Sammy Soso</name>
         </author>})
       author = Author.new(element)
