@@ -7,3 +7,4 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'processors', 'card_t
 require File.expand_path(File.join(File.dirname(__FILE__), 'processors', 'http_post_publisher'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'processors', 'pipeline'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'processors', 'puts_publisher'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'processors', 'author_filter'))

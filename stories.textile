@@ -26,4 +26,3 @@ h2. Medium
 * What about Retry?  Do something a bit more 'real' with dead letter office.
 
 * When a filter (or anything that is not a subclass of AbstractNoRetryProcessor) blows up, I'm not convinced the correct error handling is in place.
-
