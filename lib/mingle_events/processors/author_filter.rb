@@ -5,6 +5,10 @@ module MingleEvents
     class AuthorFilter
     
       def initialize(spec, mingle_access, project_identifier)
+        unless spec.size == 1
+          raise "Author spec must contain 1 and only 1 piece of criteria (the only legal criteria are each unique identifiers in and of themselves so multiple criteria is not needed.)"
+        end
+        
         @author_spec = AuthorSpec.new(spec, mingle_access, project_identifier)
       end
     
@@ -38,7 +42,6 @@ module MingleEvents
           users = @doc.search('/projects_members/projects_member/user').map do |user|
             {
               :url => user.attribute('url').inner_text,
-              :name => user.at('name').inner_text,
               :login => user.at('login').inner_text,
               :email => user.at('email').inner_text
             }
