@@ -45,8 +45,12 @@ module MingleEvents
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <content type="application/vnd.mingle+xml">
             <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
-              <change />
-              <change />
+              <change>
+                <old_value>Old name 1</old_value>
+              </change>
+              <change>
+                <old_value>Old name 2</old_value>
+              </change>
             </changes>
           </content>
         </entry>}
@@ -54,7 +58,7 @@ module MingleEvents
 
       entry = Entry.new(element)
       assert_equal(
-         [Change.new, Change.new],
+         [Change.new('Old name 1'), Change.new('Old name 2')],
          entry.changes
       )
     end
