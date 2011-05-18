@@ -44,7 +44,7 @@ module MingleEvents
       element_xml_text = %{
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <content type="application/vnd.mingle+xml">
-            <changes>
+            <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
               <change />
               <change />
             </changes>
