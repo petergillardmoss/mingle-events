@@ -18,3 +18,4 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'cat
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'entry'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'author'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'processors'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'change'))

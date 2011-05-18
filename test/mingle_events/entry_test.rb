@@ -54,8 +54,8 @@ module MingleEvents
 
       entry = Entry.new(element)
       assert_equal(
-         2,
-         entry.changes.size
+         [Change.new, Change.new],
+         entry.changes
       )
     end
 

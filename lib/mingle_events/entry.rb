@@ -46,7 +46,7 @@ module MingleEvents
     # Any changes related to the event (if any).
     def changes
       @changes ||= @entry_element.search('//change').map do |change_element|
-        "change"
+        Change.new
       end
     end
 
