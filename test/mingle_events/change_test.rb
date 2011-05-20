@@ -16,6 +16,12 @@ module MingleEvents
 
     def test_card_created_change_equality
       assert_equal(CardCreationChange.new, CardCreationChange.new)
+      assert_not_equal(CardCreationChange.new, CardDeletionChange.new)
+    end
+
+    def test_card_deletion_change_equality
+      assert_equal(CardDeletionChange.new, CardDeletionChange.new)
+      assert_not_equal(CardDeletionChange.new, CardCreationChange.new)
     end
   end
 end

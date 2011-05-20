@@ -75,4 +75,18 @@ module MingleEvents
       self == other
     end
   end
+
+  class CardDeletionChange
+    def ==(other)
+      other.is_a?(CardDeletionChange)
+    end
+
+    def hash
+      term.hash ^ scheme.hash
+    end
+
+    def eql?(other)
+      self == other
+    end
+  end
 end
