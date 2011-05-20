@@ -14,12 +14,13 @@ module MingleEvents
 
       changes_types = {
         'card-creation' => lambda { CardCreationChange.new },
-        'card-deletion' => lambda { CardDeletionChange.new }
+        'card-deletion' => lambda { CardDeletionChange.new },
+        'name-change' => lambda { NameChange.new(change_element.old_value, change_element.new_value)  }
       }
 
       return changes_types[change_type].call unless !changes_types[change_type]
 
-      return NameChange.new(change_element.old_value, change_element.new_value) if change_type == 'name-change'
+
       return PropertyChange.new(change_element.old_value, change_element.new_value,
                                 change_element.at('.//mingle:name').inner_text) if change_type == 'property-change'
     end
