@@ -61,4 +61,18 @@ module MingleEvents
     end
 
   end
+
+  class CardCreationChange
+    def ==(other)
+      other.is_a?(CardCreationChange)
+    end
+
+    def hash
+      term.hash ^ scheme.hash
+    end
+
+    def eql?(other)
+      self == other
+    end
+  end
 end

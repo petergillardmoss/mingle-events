@@ -47,6 +47,22 @@ module MingleEvents
       )
     end
 
+    def test_parse_card_creation
+      @element_xml_text = %{
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
+          <content type="application/vnd.mingle+xml">
+            <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
+              <change type="card-creation">
+             </change>
+          </content>
+        </entry>}
+
+      assert_equal(
+         [CardCreationChange.new()],
+         changes.changes
+      )
+    end
+
     def test_no_changes
       @element_xml_text = %{ <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle" /> }
       assert_equal([], changes.changes)

@@ -13,5 +13,9 @@ module MingleEvents
       assert_equal(PropertyChange.new('old-value', 'new-value', 'Priority'), PropertyChange.new('old-value', 'new-value', 'Priority'))
       assert_not_equal(PropertyChange.new('old-value', 'new-value', 'Priority'), PropertyChange.new('new-value', 'different-new-value', 'Status'))
     end
+
+    def test_card_created_change_equality
+      assert_equal(CardCreationChange.new, CardCreationChange.new)
+    end
   end
 end

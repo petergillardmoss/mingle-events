@@ -10,6 +10,9 @@ module MingleEvents
     private
     def create_change change_element
       change_type = change_element.attribute('type').text
+
+      return CardCreationChange.new if change_type == 'card-creation'
+
       old_value = change_element.at('./mingle:old_value').inner_text
       new_value = change_element.at('./mingle:new_value').inner_text
 
