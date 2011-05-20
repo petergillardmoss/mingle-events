@@ -11,10 +11,10 @@ module MingleEvents
     # The change's new value
     attr_reader :change_type
 
-    def initialize old_value, new_value, change_type
+    def initialize change_type, old_value, new_value
+      @change_type = change_type
       @old_value = old_value
       @new_value = new_value
-      @change_type = change_type
     end
 
     def ==(other)

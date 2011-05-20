@@ -60,7 +60,7 @@ module MingleEvents
 
       entry = Entry.new(element)
       assert_equal(
-         [Change.new('Old name 1', 'New name 1', 'name-change'), Change.new('Old name 2', 'New name 2', 'property-change')],
+         [Change.new('name-change', 'Old name 1', 'New name 1'), Change.new('property-change', 'Old name 2', 'New name 2')],
          entry.changes
       )
     end
