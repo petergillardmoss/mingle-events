@@ -17,7 +17,7 @@ module MingleEvents
     end
   end
 
-  class Change
+  class NameChange
     include ValueChange
 
     # The change's new value
@@ -29,7 +29,7 @@ module MingleEvents
     end
 
     def ==(other)
-      other.is_a?(Change) && other.change_type == self.change_type && same_values_as(other)
+      other.is_a?(NameChange) && other.change_type == self.change_type && same_values_as(other)
     end
 
     def hash
