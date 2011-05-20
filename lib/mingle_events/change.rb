@@ -37,7 +37,7 @@ module MingleEvents
     # The change's new value
     attr_reader :new_value
 
-    def initialize old_value, new_value=nil
+    def initialize old_value, new_value
       @old_value = old_value
       @new_value = new_value
     end

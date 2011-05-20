@@ -33,12 +33,13 @@ module MingleEvents
             <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
               <change type="property-change">
                <old_value>should</old_value>
+               <new_value>must</new_value>
              </change>
           </content>
         </entry>}
 
       assert_equal(
-         [PropertyChange.new('should')],
+         [PropertyChange.new('should', 'must')],
          changes.changes
       )
     end
