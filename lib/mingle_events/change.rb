@@ -31,15 +31,19 @@ module MingleEvents
   end
 
   class PropertyChange
+    # The name of the property
+    attr_reader :name
+
     # The change's old value
     attr_reader :old_value
 
     # The change's new value
     attr_reader :new_value
 
-    def initialize old_value, new_value
+    def initialize old_value, new_value, name=nil
       @old_value = old_value
       @new_value = new_value
+      @name = name
     end
 
     def ==(other)
