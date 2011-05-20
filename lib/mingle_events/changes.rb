@@ -9,8 +9,12 @@ module MingleEvents
     def create_change change_element
       change_type = change_element.attribute('type').text
 
-      return CardCreationChange.new if change_type == 'card-creation'
-      return CardDeletionChange.new if change_type == 'card-deletion'
+      changes_types = {
+        'card-creation' => lambda { CardCreationChange.new },
+        'card-deletion' => lambda { CardDeletionChange.new }
+      }
+
+      return changes_types[change_type].call unless !changes_types[change_type]
 
       old_value = change_element.at('./mingle:old_value').inner_text
       new_value = change_element.at('./mingle:new_value').inner_text

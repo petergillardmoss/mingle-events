@@ -63,7 +63,7 @@ module MingleEvents
       )
     end
 
-    def test_parse_card_creation
+    def test_parse_card_deletion
       @element_xml_text = %{
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <content type="application/vnd.mingle+xml">
