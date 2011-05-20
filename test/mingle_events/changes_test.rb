@@ -21,7 +21,7 @@ module MingleEvents
         </entry>}
 
       assert_equal(
-         [NameChange.new('name-change', 'Old name 1', 'New name 1'), NameChange.new('name-change', 'Old name 2', 'New name 2')],
+         [NameChange.new('Old name 1', 'New name 1'), NameChange.new('Old name 2', 'New name 2')],
          changes.changes
       )
     end

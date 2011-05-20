@@ -20,16 +20,12 @@ module MingleEvents
   class NameChange
     include ValueChange
 
-    # The change's new value
-    attr_reader :change_type
-
-    def initialize change_type, old_value, new_value
-      @change_type = change_type
+    def initialize old_value, new_value
       super old_value, new_value
     end
 
     def ==(other)
-      other.is_a?(NameChange) && other.change_type == self.change_type && same_values_as(other)
+      other.is_a?(NameChange) && same_values_as(other)
     end
 
     def hash
