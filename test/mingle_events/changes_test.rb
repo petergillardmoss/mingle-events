@@ -21,7 +21,9 @@ module MingleEvents
         </entry>}
       element = Nokogiri::XML(element_xml_text)
 
-      entry = Entry.new(element)
+      entry = Object.new
+      entry.extend(Changes)
+      entry.instance_variable_set('@entry_element', element)
       assert_equal(
          [Change.new('name-change', 'Old name 1', 'New name 1'), Change.new('property-change', 'Old name 2', 'New name 2')],
          entry.changes

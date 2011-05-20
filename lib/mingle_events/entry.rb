@@ -3,6 +3,7 @@ module MingleEvents
   # A Ruby wrapper around an Atom entry, particularly an Atom entry
   # representing an event in Mingle.
   class Entry
+    include Changes
 
     # Construct with the wrapped Nokogiri Elem for the entry
     def initialize(entry_element)
@@ -40,16 +41,6 @@ module MingleEvents
     def categories
       @categories ||= @entry_element.search('category').map do |category_element|
         Category.new(category_element.attribute('term').text, category_element.attribute('scheme').text)
-      end
-    end
-
-    # Any changes related to the event (if any).
-    def changes
-      @changes ||= @entry_element.search('.//mingle:change').map do |change_element|
-        Change.new(
-                   change_element.attribute('type').text,
-                   change_element.at('./mingle:old_value').inner_text,
-                   change_element.at('./mingle:new_value').inner_text)
       end
     end
 

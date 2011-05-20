@@ -15,7 +15,9 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'pro
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'project_event_broadcaster'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'page'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'category'))
-require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'entry'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'author'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'processors'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'change'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'changes'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'mingle_events', 'entry'))
+
