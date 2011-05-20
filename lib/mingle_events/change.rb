@@ -29,4 +29,26 @@ module MingleEvents
       self == other
     end
   end
+
+  class PropertyChange
+    # The change's old value
+    attr_reader :old_value
+
+    def initialize old_value
+      @old_value = old_value
+    end
+
+    def ==(other)
+      other.is_a?(PropertyChange) && other.old_value == self.old_value
+    end
+
+    def hash
+      term.hash ^ scheme.hash
+    end
+
+    def eql?(other)
+      self == other
+    end
+
+  end
 end
