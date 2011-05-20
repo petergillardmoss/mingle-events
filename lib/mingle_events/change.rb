@@ -8,13 +8,17 @@ module MingleEvents
     # The change's new value
     attr_reader :new_value
 
-    def initialize old_value, new_value
+    # The change's new value
+    attr_reader :change_type
+
+    def initialize old_value, new_value, change_type=nil
       @old_value = old_value
       @new_value = new_value
+      @change_type = change_type
     end
 
     def ==(other)
-      other.is_a?(Change) && other.old_value == self.old_value && other.new_value == self.new_value
+      other.is_a?(Change) && other.old_value == self.old_value && other.new_value == self.new_value && other.change_type == self.change_type
     end
 
     def hash
