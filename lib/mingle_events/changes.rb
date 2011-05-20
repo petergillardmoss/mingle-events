@@ -11,13 +11,14 @@ module MingleEvents
     def create_change change_element
       change_type = change_element.attribute('type').text
       old_value = change_element.at('./mingle:old_value').inner_text
+      new_value = change_element.at('./mingle:new_value').inner_text
       return NameChange.new(
                         old_value,
-                        change_element.at('./mingle:new_value').inner_text) if change_type == 'name-change'
+                        new_value) if change_type == 'name-change'
 
       return PropertyChange.new(
                                 old_value,
-                                change_element.at('./mingle:new_value').inner_text,
+                                new_value,
                                 change_element.at('.//mingle:name').inner_text) if change_type == 'property-change'
     end
   end
