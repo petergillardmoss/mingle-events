@@ -4,7 +4,7 @@ module MingleEvents
   class ChangesTest < Test::Unit::TestCase
 
     def test_parse_changes
-      element_xml_text = %{
+      @element_xml_text = %{
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
           <content type="application/vnd.mingle+xml">
             <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
@@ -20,7 +20,6 @@ module MingleEvents
           </content>
         </entry>}
 
-      changes = changes_with element_xml_text
       assert_equal(
          [Change.new('name-change', 'Old name 1', 'New name 1'), Change.new('property-change', 'Old name 2', 'New name 2')],
          changes.changes
@@ -28,16 +27,14 @@ module MingleEvents
     end
 
     def test_no_changes
-      element_xml_text = %{ <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle" /> }
-
-      changes = changes_with element_xml_text
+      @element_xml_text = %{ <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle" /> }
       assert_equal([], changes.changes)
     end
 
-    def changes_with element_xml_text
+    def changes
       entry = Object.new
       entry.extend(Changes)
-      entry.instance_variable_set('@entry_element', Nokogiri::XML(element_xml_text))
+      entry.instance_variable_set('@entry_element', Nokogiri::XML(@element_xml_text))
       entry
     end
   end
