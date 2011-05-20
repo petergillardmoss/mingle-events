@@ -30,5 +30,14 @@ module MingleEvents
       )
     end
 
+    def test_no_changes
+      element_xml_text = %{ <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle" /> }
+      element = Nokogiri::XML(element_xml_text)
+
+      entry = Object.new
+      entry.extend(Changes)
+      entry.instance_variable_set('@entry_element', element)
+      assert_equal([], entry.changes)
+    end
   end
 end
