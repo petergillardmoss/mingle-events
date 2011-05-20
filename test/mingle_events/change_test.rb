@@ -4,8 +4,9 @@ module MingleEvents
   class ChangeTest < Test::Unit::TestCase
 
     def test_equality
-      assert_equal(Change.new('old value'), Change.new('old value'))
-      assert_not_equal(Change.new('old value'), Change.new('different value'))
+      assert_equal(Change.new('old value', 'new value'), Change.new('old value', 'new value'))
+      assert_not_equal(Change.new('old value', 'new value'), Change.new('different old value', 'new value'))
+      assert_not_equal(Change.new('old value', 'new value'), Change.new('old value', 'different new value'))
     end
 
   end
