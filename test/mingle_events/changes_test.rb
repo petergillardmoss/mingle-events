@@ -32,6 +32,9 @@ module MingleEvents
           <content type="application/vnd.mingle+xml">
             <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
               <change type="property-change">
+                <property_definition>
+                  <name>Priority</name>
+               </property_definition>
                <old_value>should</old_value>
                <new_value>must</new_value>
              </change>
@@ -39,7 +42,7 @@ module MingleEvents
         </entry>}
 
       assert_equal(
-         [PropertyChange.new('should', 'must')],
+         [PropertyChange.new('should', 'must', 'Priority')],
          changes.changes
       )
     end
