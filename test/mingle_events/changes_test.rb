@@ -79,6 +79,19 @@ module MingleEvents
       )
     end
 
+    def test_unknown_change
+      @element_xml_text = %{
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
+          <content type="application/vnd.mingle+xml">
+            <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
+              <change type="unknown">
+             </change>
+          </content>
+        </entry>}
+
+      assert_equal([], changes.changes)
+    end
+
     def test_no_changes
       @element_xml_text = %{ <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle" /> }
       assert_equal([], changes.changes)
