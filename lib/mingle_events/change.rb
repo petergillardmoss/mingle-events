@@ -89,4 +89,18 @@ module MingleEvents
       self == other
     end
   end
+
+  class DescriptionChange
+    def ==(other)
+      other.is_a?(DescriptionChange)
+    end
+
+    def hash
+      term.hash ^ scheme.hash
+    end
+
+    def eql?(other)
+      self == other
+    end
+  end
 end

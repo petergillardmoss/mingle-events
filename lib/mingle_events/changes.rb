@@ -16,6 +16,7 @@ module MingleEvents
       @changes_types ||= {
         'card-creation' => lambda { CardCreationChange.new },
         'card-deletion' => lambda { CardDeletionChange.new },
+        'description-change' => lambda { DescriptionChange.new },
         'name-change' => lambda { |change| NameChange.new(change.old_value, change.new_value) },
         'property-change' => lambda { |change| PropertyChange.new(change.old_value, change.new_value,
                                 change.property_name) }
