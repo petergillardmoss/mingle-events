@@ -7,8 +7,6 @@ module MingleEvents
 
     private
     def create_change change_element
-      change_type = change_element.attribute('type').text
-
       change = Change.new(change_element)
 
       changes_types = {
@@ -19,7 +17,7 @@ module MingleEvents
                                 change.property_name) }
       }
 
-      return changes_types[change_type].call unless !changes_types[change_type]
+      return changes_types[change.type].call unless !changes_types[change.type]
     end
 
     class Change
@@ -27,6 +25,7 @@ module MingleEvents
         @element = element
       end
 
+      def type() @element.attribute('type').text end
       def old_value() @element.at('./mingle:old_value').inner_text end
       def new_value() @element.at('./mingle:new_value').inner_text end
       def property_name() @element.at('.//mingle:name').inner_text end
