@@ -85,7 +85,7 @@ module MingleEvents
   class DescriptionChange < SimpleChange
   end
 
-  class CommentAdditionChange < SimpleChange
+  class CommentAdditionChange
     # The comment added
     attr_reader :comment
 
@@ -97,5 +97,12 @@ module MingleEvents
       other.is_a?(self.class) && self.comment == other.comment
     end
 
+    def hash
+      term.hash ^ scheme.hash
+    end
+
+    def eql?(other)
+      self == other
+    end
   end
 end
