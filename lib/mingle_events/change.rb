@@ -94,7 +94,7 @@ module MingleEvents
     end
 
     def ==(other)
-      other.is_a?(self.class) && other.comment == self.comment
+      other.is_a?(self.class) && self.comment == other.comment
     end
 
   end
