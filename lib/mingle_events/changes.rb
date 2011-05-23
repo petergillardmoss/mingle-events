@@ -9,15 +9,17 @@ module MingleEvents
     def create_change change_element
       change = Change.new(change_element)
 
-      changes_types = {
+      return changes_types[change.type].call(change) unless !changes_types[change.type]
+    end
+
+    def changes_types
+      @changes_types ||= {
         'card-creation' => lambda { CardCreationChange.new },
         'card-deletion' => lambda { CardDeletionChange.new },
-        'name-change' => lambda { NameChange.new(change.old_value, change.new_value) },
-        'property-change' => lambda { PropertyChange.new(change.old_value, change.new_value,
+        'name-change' => lambda { |change| NameChange.new(change.old_value, change.new_value) },
+        'property-change' => lambda { |change| PropertyChange.new(change.old_value, change.new_value,
                                 change.property_name) }
       }
-
-      return changes_types[change.type].call unless !changes_types[change.type]
     end
 
     class Change
