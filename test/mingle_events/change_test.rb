@@ -29,5 +29,10 @@ module MingleEvents
       assert_not_equal(DescriptionChange.new, CardCreationChange.new)
     end
 
+    def test_comment_addition_change
+      assert_equal(CommentAdditionChange.new, CommentAdditionChange.new)
+      assert_not_equal(CommentAdditionChange.new, DescriptionChange.new)
+    end
+
   end
 end

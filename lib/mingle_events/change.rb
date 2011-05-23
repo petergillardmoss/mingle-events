@@ -84,4 +84,7 @@ module MingleEvents
 
   class DescriptionChange < SimpleChange
   end
+
+  class CommentAdditionChange < SimpleChange
+  end
 end

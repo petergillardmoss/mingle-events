@@ -95,6 +95,23 @@ module MingleEvents
       )
     end
 
+    def test_comment_addition
+      @element_xml_text = %{
+        <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
+          <content type="application/vnd.mingle+xml">
+            <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
+              <change type="comment-addition">
+              </change>
+             </change>
+          </content>
+        </entry>}
+
+      assert_equal(
+         [CommentAdditionChange.new()],
+         changes.changes
+      )
+    end
+
     def test_unknown_change
       @element_xml_text = %{
         <entry xmlns:mingle="http://www.thoughtworks-studios.com/ns/mingle">
