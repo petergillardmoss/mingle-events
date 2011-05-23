@@ -86,5 +86,16 @@ module MingleEvents
   end
 
   class CommentAdditionChange < SimpleChange
+    # The comment added
+    attr_reader :comment
+
+    def initialize comment=nil
+      @comment = comment
+    end
+
+    def ==(other)
+      other.is_a?(self.class) && other.comment == self.comment
+    end
+
   end
 end

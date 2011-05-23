@@ -14,6 +14,11 @@ module MingleEvents
       assert_not_equal(PropertyChange.new('old-value', 'new-value', 'Priority'), PropertyChange.new('new-value', 'different-new-value', 'Status'))
     end
 
+    def test_comment_addition_change
+      assert_equal(CommentAdditionChange.new('commenting on the card'), CommentAdditionChange.new('commenting on the card'))
+      assert_not_equal(CommentAdditionChange.new('commenting on the card'), CommentAdditionChange.new('commenting again'))
+    end
+
     def test_card_created_change_equality
       assert_equal(CardCreationChange.new, CardCreationChange.new)
       assert_not_equal(CardCreationChange.new, CardDeletionChange.new)
@@ -27,11 +32,6 @@ module MingleEvents
     def test_description_change
       assert_equal(DescriptionChange.new, DescriptionChange.new)
       assert_not_equal(DescriptionChange.new, CardCreationChange.new)
-    end
-
-    def test_comment_addition_change
-      assert_equal(CommentAdditionChange.new, CommentAdditionChange.new)
-      assert_not_equal(CommentAdditionChange.new, DescriptionChange.new)
     end
 
   end
