@@ -49,7 +49,7 @@ module MingleEvents
     end
 
     def ==(other)
-      other.is_a?(PropertyChange) && same_values_as(other)
+      other.is_a?(PropertyChange) && same_values_as(other) && self.name == other.name
     end
 
     def hash

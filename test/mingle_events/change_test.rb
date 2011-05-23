@@ -11,7 +11,9 @@ module MingleEvents
 
     def test_property_change_equality
       assert_equal(PropertyChange.new('old-value', 'new-value', 'Priority'), PropertyChange.new('old-value', 'new-value', 'Priority'))
-      assert_not_equal(PropertyChange.new('old-value', 'new-value', 'Priority'), PropertyChange.new('new-value', 'different-new-value', 'Status'))
+      assert_not_equal(PropertyChange.new('old-value', 'new-value', 'Priority'), PropertyChange.new('old-value', 'different-new-value', 'Priority'))
+
+      assert_not_equal(PropertyChange.new('old-value', 'new-value', 'Priority'), PropertyChange.new('old-value', 'new-value', 'Status'))
     end
 
     def test_comment_addition_change
