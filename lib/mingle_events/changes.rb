@@ -17,7 +17,7 @@ module MingleEvents
         'card-creation' => lambda { CardCreationChange.new },
         'card-deletion' => lambda { CardDeletionChange.new },
         'description-change' => lambda { DescriptionChange.new },
-        'comment-addition' => lambda { CommentAdditionChange.new },
+        'comment-addition' => lambda { |change| CommentAdditionChange.new(change.comment) },
         'name-change' => lambda { |change| NameChange.new(change.old_value, change.new_value) },
         'property-change' => lambda { |change| PropertyChange.new(change.old_value, change.new_value,
                                 change.property_name) }
@@ -33,6 +33,7 @@ module MingleEvents
       def old_value() @element.at('./mingle:old_value').inner_text end
       def new_value() @element.at('./mingle:new_value').inner_text end
       def property_name() @element.at('.//mingle:name').inner_text end
+      def comment() @element.at('.//mingle:comment').inner_text end
     end
   end
 end

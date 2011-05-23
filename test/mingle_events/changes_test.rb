@@ -101,13 +101,14 @@ module MingleEvents
           <content type="application/vnd.mingle+xml">
             <changes xmlns="http://www.thoughtworks-studios.com/ns/mingle">
               <change type="comment-addition">
+                <comment>Attached discussion from sales engineers.</comment>
               </change>
              </change>
           </content>
         </entry>}
 
       assert_equal(
-         [CommentAdditionChange.new()],
+         [CommentAdditionChange.new('Attached discussion from sales engineers.')],
          changes.changes
       )
     end
